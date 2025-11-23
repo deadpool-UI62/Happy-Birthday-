@@ -1,4 +1,4 @@
-# Birthday Website for Kaarttiiii 🎉🎂
+# Special Birthday Wishes For Kaarttiiii 🎉🎂
 
 This project is a personalized, interactive, and visually appealing multi-page birthday website dedicated to celebrating Kaarttiiii's special day.
 
@@ -70,3 +70,4 @@ This project is a personalized, interactive, and visually appealing multi-page b
 ---
 
 Made with ❤️ and care to celebrate the wonderful Kaarttiiii’s special day.
+
