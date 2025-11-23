@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <title>Birthday Home</title>
+          <style>
+                    /* (Unchanged styles from original file) */
+                    body,
+                    html {
+                              margin: 0;
+                              padding: 0;
+                              height: 100%;
+                              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                              background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1280&q=80') center/cover no-repeat fixed;
+                              position: relative;
+                              overflow-x: hidden;
+                    }
+
+                    body::before {
+                              content: "";
+                              position: fixed;
+                              inset: 0;
+                              background: inherit;
+                              filter: blur(6px) brightness(0.85) saturate(1.2);
+                              z-index: -1;
+                              transform: scale(1.05);
+                    }
+
+                    .main-content {
+                              max-width: 900px;
+                              margin: 4rem auto;
+                              background: rgba(255, 255, 255, 0.94);
+                              padding: 3rem 2.5rem 4rem;
+                              border-radius: 25px;
+                              box-shadow: 0 12px 35px rgba(255, 111, 145, 0.37);
+                              text-align: center;
+                              animation: fadeIn 1.8s ease forwards;
+                              opacity: 0;
+                    }
+
+                    @keyframes fadeIn {
+                              to {
+                                        opacity: 1;
+                              }
+                    }
+
+                    nav {
+                              display: flex;
+                              justify-content: center;
+                              gap: 1.6rem;
+                              margin-bottom: 3rem;
+                              flex-wrap: wrap;
+                    }
+
+                    nav a {
+                              text-decoration: none;
+                              background: #ff6f91;
+                              padding: 0.9em 2.6em;
+                              border-radius: 45px;
+                              font-weight: 700;
+                              color: #fff;
+                              font-size: 1.15rem;
+                              box-shadow: 0 7px 21px rgba(255, 111, 145, 0.5);
+                              transition: background-color 0.35s ease, transform 0.3s ease;
+                    }
+
+                    nav a:hover,
+                    nav a:focus {
+                              background: #ff9cac;
+                              outline: none;
+                              transform: scale(1.12);
+                    }
+
+                    h1 {
+                              font-size: 3.8rem;
+                              color: #d8496b;
+                              margin-bottom: 0.5rem;
+                              text-shadow: 2px 2px 14px rgba(255, 111, 145, 0.55);
+                    }
+
+                    p {
+                              font-size: 1.3rem;
+                              color: #5a4152;
+                              line-height: 1.6;
+                    }
+
+                    .main-photo {
+                              width: 320px;
+                              margin: 2rem auto 0;
+                              border-radius: 26px;
+                              box-shadow: 0 10px 32px rgba(255, 111, 145, 0.48);
+                              cursor: pointer;
+                              transition: transform 0.4s ease;
+                    }
+
+                    .main-photo:hover {
+                              transform: scale(1.07) rotate(2deg);
+                    }
+          </style>
+</head>
+
+<body>
+          <audio id="bgMusic" autoplay loop muted>
+                    <source src="audio/your-audio-file.mp3" type="audio/mpeg" />
+          </audio>
+          <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                              const audio = document.getElementById('bgMusic');
+                              if (audio) {
+                                        audio.play().catch(() => {
+                                                  // Autoplay probably blocked, fallback to muted autoplay
+                                                  audio.muted = true;
+                                                  audio.play();
+                                        });
+                                        // Try unmute after short delay (most browsers will still block without user gesture)
+                                        setTimeout(() => {
+                                                  if (audio.muted) {
+                                                            audio.muted = false;
+                                                            audio.volume = 0.3;
+                                                  }
+                                        }, 4000); // 4 seconds delay
+                              }
+                    });
+
+                    // Also unmute on user click for compliance
+                    document.addEventListener('click', () => {
+                              const audio = document.getElementById('bgMusic');
+                              if (audio && audio.muted) {
+                                        audio.muted = false;
+                                        audio.volume = 0.3;
+                              }
+                    }, { once: true });
+          </script>
+
+
+          <div class="main-content" aria-label="Home Page Content">
+                    <nav>
+                              <a href="index.html" aria-current="page">Home</a>
+                              <a href="messages.html">Messages</a>
+                              <a href="images.html">Images</a>
+                              <a href="cake.html">Cake</a>
+                    </nav>
+                    <h1>Happy Birthday, Kaarttiiii!</h1>
+                    <p>Wishing you all the joy and happiness on your special day. Let’s celebrate the wonderful person
+                              you are!</p>
+                    <img src="images/main.jpg" alt="Main photo of Kaarttiiii" class="main-photo" />
+          </div>
+
+          <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                              const mainContent = document.querySelector('.main-content');
+                              if (mainContent) {
+                                        mainContent.style.opacity = 0;
+                                        mainContent.style.transition = 'opacity 1.8s ease';
+                                        requestAnimationFrame(() => {
+                                                  mainContent.style.opacity = 1;
+                                        });
+                              }
+                              const navLinks = document.querySelectorAll('nav a');
+                              navLinks.forEach(link => {
+                                        link.style.transition = 'transform 0.3s ease';
+                                        link.addEventListener('mouseenter', () => { link.style.transform = 'scale(1.12)'; });
+                                        link.addEventListener('mouseleave', () => { link.style.transform = 'scale(1)'; });
+                              });
+                    });
+          </script>
+</body>
+
+</html>

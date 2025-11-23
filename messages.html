@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <title>Birthday Messages</title>
+          <style>
+                    /* Background & blur */
+                    body,
+                    html {
+                              margin: 0;
+                              padding: 0;
+                              height: 100%;
+                              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                              background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1280&q=80') center/cover no-repeat fixed;
+                              position: relative;
+                              overflow-x: hidden;
+                    }
+
+                    body::before {
+                              content: "";
+                              position: fixed;
+                              inset: 0;
+                              background: inherit;
+                              filter: blur(6px) brightness(0.85) saturate(1.2);
+                              z-index: -1;
+                              transform: scale(1.05);
+                    }
+
+                    /* Container */
+                    .main-content {
+                              max-width: 900px;
+                              margin: 3rem auto 4rem;
+                              background: rgba(255, 255, 255, 0.95);
+                              padding: 3rem 2.5rem 4rem;
+                              border-radius: 25px;
+                              box-shadow: 0 10px 30px rgba(255, 111, 145, 0.35);
+                              text-align: center;
+                              animation: fadeIn 1.7s ease forwards;
+                              opacity: 0;
+                    }
+
+                    @keyframes fadeIn {
+                              to {
+                                        opacity: 1;
+                              }
+                    }
+
+                    /* Nav */
+                    nav {
+                              display: flex;
+                              justify-content: center;
+                              gap: 1.4rem;
+                              margin-bottom: 3rem;
+                              flex-wrap: wrap;
+                    }
+
+                    nav a {
+                              text-decoration: none;
+                              background: #ff6f91;
+                              padding: 0.8em 2.2em;
+                              border-radius: 40px;
+                              font-weight: 700;
+                              color: #fff;
+                              font-size: 1.1rem;
+                              box-shadow: 0 6px 18px rgba(255, 111, 145, 0.45);
+                              transition: background-color 0.35s ease, transform 0.25s ease;
+                    }
+
+                    nav a:hover,
+                    nav a:focus {
+                              background: #ff9cac;
+                              outline: none;
+                              transform: scale(1.1);
+                    }
+
+                    h2 {
+                              font-size: 3rem;
+                              margin: 0 0 1rem 0;
+                              color: #d8496b;
+                              text-shadow: 2px 2px 12px rgba(255, 111, 145, 0.5);
+                    }
+
+                    p.description {
+                              font-size: 1.25rem;
+                              color: #5a4152;
+                              margin-bottom: 2rem;
+                              max-width: 650px;
+                              margin-left: auto;
+                              margin-right: auto;
+                    }
+
+                    button {
+                              cursor: pointer;
+                              background: #ff6f91;
+                              color: white;
+                              border: none;
+                              border-radius: 40px;
+                              padding: 1rem 3rem;
+                              font-weight: 700;
+                              font-size: 1.22rem;
+                              box-shadow: 0 8px 24px rgba(255, 111, 145, 0.45);
+                              transition: background-color 0.3s ease, transform 0.2s ease;
+                    }
+
+                    button:hover,
+                    button:focus {
+                              background: #ff9cac;
+                              transform: scale(1.05);
+                              outline: none;
+                    }
+
+                    #messagesContainer {
+                              margin-top: 2rem;
+                              display: flex;
+                              flex-direction: column;
+                              gap: 1.3rem;
+                              max-width: 700px;
+                              margin-left: auto;
+                              margin-right: auto;
+                    }
+
+                    .wish-message {
+                              background: #ffe5ec;
+                              border-radius: 20px;
+                              padding: 1.2rem 1.8rem;
+                              box-shadow: 0 6px 18px rgba(255, 111, 145, 0.25);
+                              color: #9b2e45;
+                              font-size: 1.2rem;
+                              font-weight: 600;
+                              opacity: 0;
+                              transform: translateX(50px);
+                              animation-fill-mode: forwards;
+                    }
+
+                    /* Slide and fade-in animation for wishes */
+                    @keyframes slideFadeIn {
+                              to {
+                                        opacity: 1;
+                                        transform: translateX(0);
+                              }
+                    }
+
+                    /* Confetti styles */
+                    .confetti-piece {
+                              position: fixed;
+                              width: 12px;
+                              height: 12px;
+                              background-color: #ff6f91;
+                              opacity: 0.9;
+                              border-radius: 3px;
+                              pointer-events: none;
+                              will-change: transform, opacity;
+                    }
+          </style>
+</head>
+
+<body>
+          <div class="main-content" aria-label="Birthday Messages for [NAME HERE]">
+                    <nav>
+                              <a href="index.html">Home</a>
+                              <a href="messages.html" aria-current="page">Messages</a>
+                              <a href="images.html">Images</a>
+                              <a href="cake.html">Cake</a>
+                    </nav>
+                    <h2>Heartfelt Birthday Wishes for Kaarttiiii</h2>
+                    <p class="description">Press the button and enjoy beautiful wishes crafted specially for your day.
+                    </p>
+                    <button id="surpriseBtn" aria-describedby="messageCount" aria-live="polite"
+                              aria-atomic="true">Reveal a Wish</button>
+                    <div id="messagesContainer" aria-live="polite" aria-relevant="additions"></div>
+                    <p id="messageCount" style="margin-top:1rem; font-size:1rem; color:#88525a;"></p>
+          </div>
+          <audio id="bgMusic" autoplay loop muted>
+                    <source src="audio/your-audio-file.mp3" type="audio/mpeg" />
+          </audio>
+          <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                              const audio = document.getElementById('bgMusic');
+                              if (audio) {
+                                        audio.play().catch(() => {
+                                                  // Autoplay probably blocked, fallback to muted autoplay
+                                                  audio.muted = true;
+                                                  audio.play();
+                                        });
+                                        // Try unmute after short delay (most browsers will still block without user gesture)
+                                        setTimeout(() => {
+                                                  if (audio.muted) {
+                                                            audio.muted = false;
+                                                            audio.volume = 0.3;
+                                                  }
+                                        }, 4000); // 4 seconds delay
+                              }
+                    });
+
+                    // Also unmute on user click for compliance
+                    document.addEventListener('click', () => {
+                              const audio = document.getElementById('bgMusic');
+                              if (audio && audio.muted) {
+                                        audio.muted = false;
+                                        audio.volume = 0.3;
+                              }
+                    }, { once: true });
+          </script>
+
+          <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                              const mainContent = document.querySelector('.main-content');
+                              if (mainContent) {
+                                        mainContent.style.opacity = 0;
+                                        mainContent.style.transition = 'opacity 1.5s ease';
+                                        requestAnimationFrame(() => {
+                                                  mainContent.style.opacity = 1;
+                                        });
+                              }
+
+                              const navLinks = document.querySelectorAll('nav a');
+                              navLinks.forEach(link => {
+                                        link.style.transition = 'transform 0.3s ease';
+                                        link.addEventListener('mouseenter', () => {
+                                                  link.style.transform = 'scale(1.1)';
+                                        });
+                                        link.addEventListener('mouseleave', () => {
+                                                  link.style.transform = 'scale(1)';
+                                        });
+                              });
+
+                              const btn = document.getElementById('surpriseBtn');
+                              const msgContainer = document.getElementById('messagesContainer');
+                              const messages = [
+                                        "🎈 May your day be filled with sunshine and smiles!",
+                                        "🎂 Wishing you endless happiness and lots of cake!",
+                                        "🎁 Here's to a joyful year ahead full of surprises!",
+                                        "🥳 Celebrate big today — you deserve it all!",
+                                        "🌟 May your dreams sparkle and come true!",
+                                        "💖 Sending you warm wishes on your special day!",
+                                        "🎉 Let laughter and love surround you always!",
+                                        "✨ Keep shining bright like the star you are!"
+                              ];
+                              let revealed = new Set();
+
+                              btn.addEventListener('click', () => {
+                                        if (revealed.size === messages.length) {
+                                                  btn.disabled = true;
+                                                  btn.textContent = "All wishes revealed! 🎉";
+                                                  return;
+                                        }
+                                        let idx;
+                                        do {
+                                                  idx = Math.floor(Math.random() * messages.length);
+                                        } while (revealed.has(idx));
+                                        revealed.add(idx);
+
+                                        const p = document.createElement('p');
+                                        p.textContent = messages[idx];
+                                        p.style.opacity = 0;
+                                        p.style.transform = 'translateX(60px)';
+                                        p.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+                                        msgContainer.appendChild(p);
+
+                                        requestAnimationFrame(() => {
+                                                  p.style.opacity = 1;
+                                                  p.style.transform = 'translateX(0)';
+                                        });
+
+                                        launchConfetti();
+                              });
+
+                              function launchConfetti() {
+                                        const colors = ['#ff6f91', '#ffb6b9', '#ffd6d9', '#ff90a3'];
+                                        const confettiCount = 70;
+                                        for (let i = 0; i < confettiCount; i++) {
+                                                  const confetti = document.createElement('div');
+                                                  confetti.style.position = 'fixed';
+                                                  confetti.style.width = '10px';
+                                                  confetti.style.height = '10px';
+                                                  confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                                                  confetti.style.borderRadius = '50%';
+                                                  confetti.style.left = `${Math.random() * 100}vw`;
+                                                  confetti.style.top = '-15px';
+                                                  confetti.style.opacity = '0.9';
+                                                  confetti.style.pointerEvents = 'none';
+                                                  confetti.style.zIndex = 9999;
+                                                  document.body.appendChild(confetti);
+
+                                                  const fallDistance = 130 + Math.random() * 90;
+                                                  const duration = 2000 + Math.random() * 1500;
+
+                                                  confetti.animate([
+                                                            { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                                                            { transform: `translateY(${fallDistance}vh) rotate(${Math.random() * 1080}deg)`, opacity: 0 }
+                                                  ], { duration, easing: 'ease-out', fill: 'forwards' });
+
+                                                  setTimeout(() => confetti.remove(), duration);
+                                        }
+                              }
+                    });
+          </script>
+
+</body>
+
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <title>Birthday Images</title>
+          <style>
+                    body,
+                    html {
+                              margin: 0;
+                              padding: 0;
+                              height: 100%;
+                              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                              background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1280&q=80') center/cover no-repeat fixed;
+                              position: relative;
+                              overflow-x: hidden;
+                    }
+
+                    body::before {
+                              content: "";
+                              position: fixed;
+                              inset: 0;
+                              background: inherit;
+                              filter: blur(6px) brightness(0.85) saturate(1.2);
+                              z-index: -1;
+                              transform: scale(1.05);
+                    }
+
+                    .main-content {
+                              max-width: 1000px;
+                              margin: 4rem auto;
+                              background: rgba(255, 255, 255, 0.96);
+                              padding: 3.5rem 3rem 4rem;
+                              border-radius: 30px;
+                              box-shadow: 0 12px 38px rgba(255, 111, 145, 0.4);
+                              text-align: center;
+                              overflow: hidden;
+                    }
+
+                    nav {
+                              display: flex;
+                              justify-content: center;
+                              gap: 1.6rem;
+                              margin-bottom: 3.3rem;
+                              flex-wrap: wrap;
+                    }
+
+                    nav a {
+                              text-decoration: none;
+                              background: #ff6f91;
+                              padding: 0.9em 2.6em;
+                              border-radius: 45px;
+                              font-weight: 700;
+                              color: #fff;
+                              font-size: 1.15rem;
+                              box-shadow: 0 7px 21px rgba(255, 111, 145, 0.5);
+                              transition: background-color 0.35s ease, transform 0.3s ease;
+                    }
+
+                    nav a:hover,
+                    nav a:focus {
+                              background: #ff9cac;
+                              outline: none;
+                              transform: scale(1.12);
+                    }
+
+                    h2 {
+                              font-size: 3rem;
+                              margin-bottom: 2rem;
+                              color: #d8496b;
+                              text-shadow: 2px 2px 13px rgba(255, 111, 145, 0.5);
+                    }
+
+                    .image-gallery {
+                              display: flex;
+                              justify-content: center;
+                              gap: 2rem;
+                              max-width: 900px;
+                              margin: 0 auto;
+                              position: relative;
+                              height: 270px;
+                    }
+
+                    .image-gallery img {
+                              position: absolute;
+                              width: 320px;
+                              height: 240px;
+                              border-radius: 22px;
+                              object-fit: cover;
+                              box-shadow: 0 12px 38px rgba(255, 111, 145, 0.45);
+                              opacity: 0;
+                              transform: scale(0.85);
+                              transition: opacity 0.8s ease, transform 0.8s ease;
+                    }
+
+                    .image-gallery img.active {
+                              opacity: 1;
+                              transform: scale(1);
+                              position: relative;
+                              z-index: 10;
+                    }
+          </style>
+</head>
+
+<body>
+          <div class="main-content" aria-label="Images Gallery">
+                    <nav>
+                              <a href="index.html">Home</a>
+                              <a href="messages.html">Messages</a>
+                              <a href="images.html" aria-current="page">Images</a>
+                              <a href="cake.html">Cake</a>
+                    </nav>
+                    <h2>Memories with Kaarttiiii</h2>
+                    <div class="image-gallery" aria-live="polite" aria-label="Birthday photos of Kaarttiiii">
+                              <img src="images/photo1.webp" alt="Photo 1 of Kaarttiiii" />
+                              <img src="images/photo2.webp" alt="Photo 2 of Kaarttiiii" />
+                              <img src="images/photo3.webp" alt="Photo 3 of Kaarttiiii" />
+                              <img src="images/photo4.webp" alt="Photo 4 of Kaarttiiii" />
+                              <img src="images/photo5.webp" alt="Photo 5 of Kaarttiiii" />
+                    </div>
+          </div>
+          <audio id="bgMusic" autoplay loop muted>
+                    <source src="audio/your-audio-file.mp3" type="audio/mpeg" />
+          </audio>
+          <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                              const audio = document.getElementById('bgMusic');
+                              if (audio) {
+                                        audio.play().catch(() => {
+                                                  // Autoplay probably blocked, fallback to muted autoplay
+                                                  audio.muted = true;
+                                                  audio.play();
+                                        });
+                                        // Try unmute after short delay (most browsers will still block without user gesture)
+                                        setTimeout(() => {
+                                                  if (audio.muted) {
+                                                            audio.muted = false;
+                                                            audio.volume = 0.3;
+                                                  }
+                                        }, 4000); // 4 seconds delay
+                              }
+                    });
+
+                    // Also unmute on user click for compliance
+                    document.addEventListener('click', () => {
+                              const audio = document.getElementById('bgMusic');
+                              if (audio && audio.muted) {
+                                        audio.muted = false;
+                                        audio.volume = 0.3;
+                              }
+                    }, { once: true });
+          </script>
+
+          <!-- Follow with your full cake.html content including styles and animation scripts -->
+
+          <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                              const mainContent = document.querySelector('.main-content');
+                              if (mainContent) {
+                                        mainContent.style.opacity = 0;
+                                        mainContent.style.transition = 'opacity 1.6s ease';
+                                        requestAnimationFrame(() => {
+                                                  mainContent.style.opacity = 1;
+                                        });
+                              }
+
+                              const navLinks = document.querySelectorAll('nav a');
+                              navLinks.forEach(link => {
+                                        link.style.transition = 'transform 0.3s ease';
+                                        link.addEventListener('mouseenter', () => {
+                                                  link.style.transform = 'scale(1.12)';
+                                        });
+                                        link.addEventListener('mouseleave', () => {
+                                                  link.style.transform = 'scale(1)';
+                                        });
+                              });
+
+                              const images = document.querySelectorAll('.image-gallery img');
+                              let current = 0;
+
+                              function showImage(index) {
+                                        images.forEach((img, i) => {
+                                                  img.style.opacity = '0';
+                                                  img.style.transform = 'scale(0.85)';
+                                                  img.style.position = 'absolute';
+                                                  img.style.zIndex = '5';
+                                                  if (i === index) {
+                                                            img.style.opacity = '1';
+                                                            img.style.transform = 'scale(1)';
+                                                            img.style.position = 'relative';
+                                                            img.style.zIndex = '15';
+                                                            img.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+                                                  }
+                                        });
+                              }
+
+                              showImage(current);
+
+                              setInterval(() => {
+                                        current = (current + 1) % images.length;
+                                        showImage(current);
+                              }, 1000);
+                    });
+          </script>
+
+</body>
+
+</html>

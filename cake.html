@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <title>Realistic Birthday Cake Animation</title>
+          <style>
+                    body,
+                    html {
+                              margin: 0;
+                              padding: 0;
+                              height: 100%;
+                              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                              background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1280&q=80') center/cover no-repeat fixed;
+                              position: relative;
+                              overflow-x: hidden;
+                              overflow-y: auto;
+                    }
+
+                    body::before {
+                              content: "";
+                              position: fixed;
+                              inset: 0;
+                              background: inherit;
+                              filter: blur(7px) brightness(0.8) saturate(1.3);
+                              z-index: -1;
+                              transform: scale(1.07);
+                    }
+
+                    .main-content {
+                              max-width: 920px;
+                              margin: 4rem auto 5rem;
+                              background: rgba(255, 255, 255, 0.97);
+                              padding: 3rem 3rem 5rem;
+                              border-radius: 30px;
+                              box-shadow: 0 18px 50px rgba(255, 111, 145, 0.45);
+                              text-align: center;
+                              animation: fadeIn 1.8s ease forwards;
+                              opacity: 0;
+                              position: relative;
+                    }
+
+                    @keyframes fadeIn {
+                              to {
+                                        opacity: 1;
+                              }
+                    }
+
+                    nav {
+                              display: flex;
+                              justify-content: center;
+                              gap: 1.8rem;
+                              margin-bottom: 3.5rem;
+                              flex-wrap: wrap;
+                    }
+
+                    nav a {
+                              text-decoration: none;
+                              background: #ff6f91;
+                              padding: 1em 3em;
+                              border-radius: 55px;
+                              font-weight: 800;
+                              color: #fff;
+                              font-size: 1.3rem;
+                              box-shadow: 0 10px 32px rgba(255, 111, 145, 0.7);
+                              transition: background-color 0.35s ease, transform 0.3s ease;
+                              select: none;
+                    }
+
+                    nav a:hover,
+                    nav a:focus {
+                              background: #ff9cac;
+                              outline: none;
+                              transform: scale(1.15);
+                              box-shadow: 0 12px 44px rgba(255, 111, 145, 0.9);
+                    }
+
+                    .cake {
+                              position: relative;
+                              width: 300px;
+                              height: 300px;
+                              margin: 3rem auto 2rem;
+                              filter: drop-shadow(0 20px 22px rgba(217, 79, 111, 0.55));
+                              perspective: 400px;
+                    }
+
+                    /* Cake layers base style */
+                    .cake-layer {
+                              position: absolute;
+                              left: 50%;
+                              transform-style: preserve-3d;
+                              transform-origin: center bottom;
+                              border-radius: 60px / 45px;
+                              box-shadow: inset 0 10px 14px rgba(255, 255, 255, 0.6), inset 0 -10px 20px rgba(255, 150, 170, 0.8);
+                              background: linear-gradient(145deg, #ff97ad, #ff5e7a);
+                              border: 4px solid #ff4d6a;
+                              cursor: default;
+                              select: none;
+                    }
+
+                    /* Layer sizes and vertical stacking */
+                    .layer-1 {
+                              width: 280px;
+                              height: 80px;
+                              bottom: 0;
+                              margin-left: -140px;
+                              z-index: 1;
+                              box-shadow: inset 0 12px 20px #ffa3b5, inset 0 -15px 20px #ef4a67;
+                              background: linear-gradient(145deg, #ffb0bc, #ff7390);
+                              animation: layerBounce 3s ease-in-out infinite;
+                              transform: translateZ(0) rotateX(7deg);
+                    }
+
+                    .layer-2 {
+                              width: 260px;
+                              height: 70px;
+                              bottom: 75px;
+                              margin-left: -130px;
+                              z-index: 2;
+                              box-shadow: inset 0 11px 18px #fbd4db, inset 0 -14px 18px #d83b62;
+                              background: linear-gradient(145deg, #ffa4b9, #ff5e85);
+                              animation: layerBounce 3s ease-in-out infinite;
+                              animation-delay: 0.4s;
+                              transform: translateZ(0) rotateX(6deg);
+                    }
+
+                    .layer-3 {
+                              width: 240px;
+                              height: 60px;
+                              bottom: 140px;
+                              margin-left: -120px;
+                              z-index: 3;
+                              box-shadow: inset 0 10px 15px #fbc4cd, inset 0 -13px 15px #cc3053;
+                              background: linear-gradient(145deg, #ff9fbb, #ff527d);
+                              animation: layerBounce 3s ease-in-out infinite;
+                              animation-delay: 0.8s;
+                              transform: translateZ(0) rotateX(5deg);
+                    }
+
+                    .layer-4 {
+                              width: 220px;
+                              height: 50px;
+                              bottom: 195px;
+                              margin-left: -110px;
+                              z-index: 4;
+                              box-shadow: inset 0 9px 13px #f9b0c3, inset 0 -12px 14px #b9224a;
+                              background: linear-gradient(145deg, #fc8eb9, #ff4370);
+                              animation: layerBounce 3s ease-in-out infinite;
+                              animation-delay: 1.1s;
+                              transform: translateZ(0) rotateX(4deg);
+                    }
+
+                    @keyframes layerBounce {
+
+                              0%,
+                              100% {
+                                        transform: translateZ(0) rotateX(var(--angle));
+                              }
+
+                              50% {
+                                        transform: translateY(-10px) rotateX(var(--angle));
+                                        box-shadow: inset 0 14px 24px #ffadc0, inset 0 -18px 22px #f64c78;
+                              }
+                    }
+
+                    /* Candle */
+                    .candle {
+                              position: absolute;
+                              top: -155px;
+                              left: 140px;
+                              width: 17px;
+                              height: 60px;
+                              background: linear-gradient(180deg, #ffed85 0%, #ffd932 60%);
+                              border-radius: 8px;
+                              box-shadow: 0 0 15px 6px #ffe066;
+                              animation: flickerGlow 1.3s infinite alternate ease-in-out;
+                              cursor: pointer;
+                              z-index: 5;
+                              filter: drop-shadow(0 0 6px #ffbf56);
+                              transition: box-shadow 0.3s ease;
+                    }
+
+                    /* Flame */
+                    .flame {
+                              position: absolute;
+                              width: 30px;
+                              height: 30px;
+                              background: radial-gradient(circle at center, #fff400, #ff6200 90%);
+                              border-radius: 50% 50% 50% 10%;
+                              top: -55px;
+                              left: 134px;
+                              filter: drop-shadow(0 0 18px #ffae42);
+                              animation: flameSwing 1.3s infinite alternate ease-in-out;
+                              transform-origin: center bottom;
+                              z-index: 6;
+                    }
+
+                    @keyframes flickerGlow {
+
+                              0%,
+                              100% {
+                                        box-shadow: 0 0 15px 6px #ffe96a;
+                              }
+
+                              50% {
+                                        box-shadow: 0 0 30px 12px #fff76a;
+                              }
+                    }
+
+                    @keyframes flameSwing {
+
+                              0%,
+                              100% {
+                                        transform: rotate(0deg) scale(1);
+                              }
+
+                              50% {
+                                        transform: rotate(7deg) scale(1.15);
+                              }
+                    }
+
+                    /* Sparkles around cake */
+                    .sparkle {
+                              position: absolute;
+                              background: #fffcd8;
+                              box-shadow: 0 0 22px 9px #fff3a7;
+                              border-radius: 50%;
+                              animation: sparklePulse 3.5s infinite ease-in-out;
+                              opacity: 0.85;
+                              filter: drop-shadow(0 0 7px #ffeba7);
+                              z-index: 7;
+                    }
+
+                    .sparkle:nth-child(1) {
+                              width: 9px;
+                              height: 9px;
+                              top: -3px;
+                              left: 50px;
+                              animation-delay: 0s;
+                    }
+
+                    .sparkle:nth-child(2) {
+                              width: 11px;
+                              height: 11px;
+                              top: 14px;
+                              right: 35px;
+                              animation-delay: 1.5s;
+                    }
+
+                    .sparkle:nth-child(3) {
+                              width: 8px;
+                              height: 8px;
+                              top: 32px;
+                              left: 100px;
+                              animation-delay: 2.6s;
+                    }
+
+                    .sparkle:nth-child(4) {
+                              width: 7px;
+                              height: 7px;
+                              top: 10px;
+                              left: 150px;
+                              animation-delay: 1.1s;
+                    }
+
+                    @keyframes sparklePulse {
+
+                              0%,
+                              100% {
+                                        opacity: 0.8;
+                                        transform: scale(1);
+                              }
+
+                              50% {
+                                        opacity: 1;
+                                        transform: scale(1.6);
+                              }
+                    }
+
+                    /* Wishing line with vibrant gradient and shadow */
+                    h2 {
+                              font-size: 3.8rem;
+                              font-weight: 900;
+                              margin-top: 2.5rem;
+                              background: linear-gradient(90deg, #f72a69, #fbd72a, #f72a69, #fbd72a);
+                              background-size: 300% 300%;
+                              background-clip: text;
+                              text-fill-color: transparent;
+                              animation: gradientShift 8s ease infinite;
+                              select: none;
+                              text-shadow: 2px 2px 9px rgba(247, 42, 105, 0.65);
+                    }
+
+                    @keyframes gradientShift {
+                              0% {
+                                        background-position: 0% 50%;
+                              }
+
+                              50% {
+                                        background-position: 100% 50%;
+                              }
+
+                              100% {
+                                        background-position: 0% 50%;
+                              }
+                    }
+
+                    /* Candle hover effect */
+                    .candle:hover {
+                              animation-play-state: paused;
+                              box-shadow: 0 0 48px 18px #ffab00;
+                              transition: box-shadow 0.25s ease;
+                    }
+          </style>
+</head>
+
+<body>
+          <div class="main-content" aria-label="Realistic Cake Animation">
+                    <nav>
+                              <a href="index.html">Home</a>
+                              <a href="messages.html">Messages</a>
+                              <a href="images.html">Images</a>
+                              <a href="cake.html" aria-current="page">Cake</a>
+                    </nav>
+
+                    <div class="cake" role="img" aria-label="Realistic layered birthday cake with candle">
+                              <div class="cake-layer layer-1"></div>
+                              <div class="cake-layer layer-2"></div>
+                              <div class="cake-layer layer-3"></div>
+                              <div class="cake-layer layer-4"></div>
+
+                              <div class="candle" tabindex="0" aria-label="Birthday candle"></div>
+                              <div class="flame"></div>
+
+                              <!-- Sparkles -->
+                              <span class="sparkle"></span>
+                              <span class="sparkle"></span>
+                              <span class="sparkle"></span>
+                              <span class="sparkle"></span>
+                              <span class="sparkle"></span>
+                              <span class="sparkle"></span>
+                    </div>
+
+                    <h2>Wishing you a day as sweet, joyful, and radiant as this cake!</h2>
+          </div>
+          <audio id="bgMusic" autoplay loop muted>
+                    <source src="audio/your-audio-file.mp3" type="audio/mpeg" />
+          </audio>
+          <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                              const audio = document.getElementById('bgMusic');
+                              if (audio) {
+                                        audio.play().catch(() => {
+                                                  // Autoplay probably blocked, fallback to muted autoplay
+                                                  audio.muted = true;
+                                                  audio.play();
+                                        });
+                                        // Try unmute after short delay (most browsers will still block without user gesture)
+                                        setTimeout(() => {
+                                                  if (audio.muted) {
+                                                            audio.muted = false;
+                                                            audio.volume = 0.3;
+                                                  }
+                                        }, 4000); // 4 seconds delay
+                              }
+                    });
+
+                    // Also unmute on user click for compliance
+                    document.addEventListener('click', () => {
+                              const audio = document.getElementById('bgMusic');
+                              if (audio && audio.muted) {
+                                        audio.muted = false;
+                                        audio.volume = 0.3;
+                              }
+                    }, { once: true });
+          </script>
+
+
+
+          <script>
+                    // Fade in container and animate nav links & candle glow pulse
+                    document.addEventListener('DOMContentLoaded', () => {
+                              const mainContent = document.querySelector('.main-content');
+                              if (mainContent) {
+                                        mainContent.style.opacity = 0;
+                                        mainContent.style.transition = "opacity 1.8s ease";
+                                        requestAnimationFrame(() => {
+                                                  mainContent.style.opacity = 1;
+                                        });
+                              }
+
+                              const navLinks = document.querySelectorAll('nav a');
+                              navLinks.forEach(link => {
+                                        link.style.transition = 'transform 0.3s ease';
+                                        link.addEventListener('mouseenter', () => {
+                                                  link.style.transform = 'scale(1.12)';
+                                        });
+                                        link.addEventListener('mouseleave', () => {
+                                                  link.style.transform = 'scale(1)';
+                                        });
+                              });
+
+                              // Candle glow pulse animation
+                              const candle = document.querySelector('.candle');
+                              if (candle) {
+                                        let glowIntensity = 0;
+                                        let direction = 1;
+                                        function pulseGlow() {
+                                                  glowIntensity += 0.02 * direction;
+                                                  if (glowIntensity > 0.6 || glowIntensity < 0) direction *= -1;
+                                                  candle.style.boxShadow = `0 0 ${18 + glowIntensity * 48}px ${6 + glowIntensity * 20}px #ffb347`;
+                                                  requestAnimationFrame(pulseGlow);
+                                        }
+                                        pulseGlow();
+
+                                        // Pause glow on keyboard focus for accessibility
+                                        candle.addEventListener('focus', () => {
+                                                  candle.style.animationPlayState = 'paused';
+                                                  candle.style.boxShadow = '0 0 48px 18px #ffab00';
+                                        });
+                                        candle.addEventListener('blur', () => {
+                                                  candle.style.animationPlayState = 'running';
+                                        });
+                              }
+                    });
+          </script>
+</body>
+
+</html>
